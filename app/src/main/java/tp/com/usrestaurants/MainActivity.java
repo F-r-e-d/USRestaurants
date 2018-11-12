@@ -2,7 +2,9 @@ package tp.com.usrestaurants;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -21,9 +23,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.listViewRestaurants)
     ListView listViewRestaurants;
 
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
     private RestaurantsAdapter restaurantsAdapter;
 
     private RestaurantService restaurantService;
+
+    private Page pageNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +46,15 @@ public class MainActivity extends AppCompatActivity {
 
         restaurantService = retrofit.create(RestaurantService.class);
 
-        getRestaurant();
+        getRestaurant(1);
+        pageNumber = new Page(1);
+
 
     }
 
 
-    @OnClick(R.id.butGetResto)
-    public void getRestaurant(){
-        Call<RestaurantData> call = restaurantService.getRestaurantPerPage("US",2);
+    public void getRestaurant(int page){
+        Call<RestaurantData> call = restaurantService.getRestaurantPerPage("US",page);
 
         call.enqueue(new Callback<RestaurantData>() {
             @Override
@@ -55,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
                     RestaurantData result = response.body();
                     restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
                     listViewRestaurants.setAdapter(restaurantsAdapter);
-
+                    progressBar.setVisibility(View.GONE);
                 }else {
                     Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
-
                 }
             }
 
@@ -70,6 +77,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    @OnClick(R.id.nextImgBut)
+    public void nextPage(){
+        int nextPage = pageNumber.getPage()+1;
+        getRestaurant(nextPage);
+        pageNumber.setPage(nextPage);
+    }
+
+    @OnClick(R.id.prevImgBut)
+    public void prevPage(){
+        int prevPage = pageNumber.getPage() - 1;
+        if (prevPage > 0) {
+            getRestaurant(prevPage);
+            pageNumber.setPage(prevPage);
+        }
+    }
+
+
 
 
 }
