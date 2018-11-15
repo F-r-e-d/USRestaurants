@@ -1,5 +1,7 @@
 package tp.com.usrestaurants;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
+    @BindView(R.id.mapFloatingButton)
+    FloatingActionButton mapFloatingButton;
+
     private RestaurantsAdapter restaurantsAdapter;
 
     private RestaurantService restaurantService;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         ButterKnife.bind(this);
 
@@ -49,6 +56,13 @@ public class MainActivity extends AppCompatActivity {
         getRestaurant(1);
         pageNumber = new Page(1);
 
+        mapFloatingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
+                startActivity(mapIntent);
+            }
+        });
 
     }
 
@@ -72,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<RestaurantData> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "L'appel a échoué", Toast.LENGTH_LONG).show();
-
             }
         });
 
@@ -94,7 +107,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
+    @OnItemClick(R.id.listViewRestaurants)
+    public void onRestaurantClick(int position){
+        Restaurant restoSelected = (Restaurant) restaurantsAdapter.getItem(position);
+        String urlMobileResto = restoSelected.mobile_reserve_url;
+        Intent webViewIntent = new Intent(this, WebViewActivity.class);
+        webViewIntent.putExtra("URL_MOBILE", urlMobileResto);
+        startActivity(webViewIntent);
+    }
 
 }

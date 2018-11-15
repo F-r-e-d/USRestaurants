@@ -18,36 +18,39 @@ import java.util.List;
 public class RestaurantsAdapter extends ArrayAdapter {
 
     public RestaurantsAdapter(Context context, List<Restaurant> restaurants) {
-        super(context, R.layout.listview_layout, restaurants);
+        super(context, R.layout.list_resto_card, restaurants);
     }
 
 
     @Override
-    public View getView(int position,  View convertView,  ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         final Restaurant restaurant = (Restaurant) getItem(position);
         ImageView imgResto;
 
 
-        if (restaurant == null){
+        if (restaurant == null) {
             throw new IllegalStateException("A null restaurant finf in RestaurantAdapter");
         }
 
-        if (convertView == null){
+        if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            convertView = layoutInflater.inflate(R.layout.listview_layout, parent, false);
+            convertView = layoutInflater.inflate(R.layout.list_resto_card, parent, false);
 
         }
-        imgResto  = convertView.findViewById(R.id.restoImgView);
+        imgResto = convertView.findViewById(R.id.restoImgView);
         TextView restoName = convertView.findViewById(R.id.restosNameTxt);
         TextView city = convertView.findViewById(R.id.cityTxt);
+        TextView postalCode = convertView.findViewById(R.id.postalCodeTxt);
+        TextView priceTxt = convertView.findViewById(R.id.priceTxt);
         final ProgressBar imgLoadProgressBar = convertView.findViewById(R.id.imgLoadProgressBar);
 
-
-                String url = ((Restaurant) getItem(position)).image_url;
+        String url = ((Restaurant) getItem(position)).image_url;
 
         Picasso.get()
                 .load(url)
+                //.resize(80, 80)
+                //.centerCrop()
                 .into(imgResto, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -61,7 +64,10 @@ public class RestaurantsAdapter extends ArrayAdapter {
                 });
 
         restoName.setText(restaurant.name);
+        postalCode.setText(restaurant.postal_code);
         city.setText(restaurant.city);
+        priceTxt.setText("Price : " + restaurant.price + "/4");
+
 
         return convertView;
     }

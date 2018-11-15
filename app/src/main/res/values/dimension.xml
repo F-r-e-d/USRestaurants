@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- List Item Max and Min Height -->
+    <dimen name="list_item_min_height">250dp</dimen>
+    <dimen name="list_item_max_height">96dp</dimen>
+    <dimen name="list_item_set_height">64dp</dimen>
+
+</resources>
