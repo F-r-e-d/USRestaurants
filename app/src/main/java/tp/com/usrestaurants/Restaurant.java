@@ -12,10 +12,10 @@ public class Restaurant implements Serializable {
     public int price;
     public String mobile_reserve_url;
     public String image_url;
-    private Double latitude;
-    private Double longitude;
+    private Double lat;
+    private Double lng;
 
-    public Restaurant(int per_page, int id, String name, String address, String city, String postal_code, int price, String mobile_reserve_url, String image_url, Double latitude, Double longitude) {
+    public Restaurant(int per_page, int id, String name, String address, String city, String postal_code, int price, String mobile_reserve_url, String image_url, Double lat, Double lng) {
         this.per_page = per_page;
         this.id = id;
         this.name = name;
@@ -25,8 +25,8 @@ public class Restaurant implements Serializable {
         this.price = price;
         this.mobile_reserve_url = mobile_reserve_url;
         this.image_url = image_url;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public int getPer_page() {
@@ -102,18 +102,18 @@ public class Restaurant implements Serializable {
     }
 
     public Double getLatitude() {
-        return latitude;
+        return lat;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setLatitude(Double lat) {
+        this.lat = lat;
     }
 
     public Double getLongitude() {
-        return longitude;
+        return lng;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setLongitude(Double lng) {
+        this.lng = lng;
     }
 }

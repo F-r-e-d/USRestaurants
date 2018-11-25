@@ -54,7 +54,26 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosVi
                     }
                 });
         holder.restoNameTxt.setText(restaurants.get(position).getName());
-        holder.price.setText("fffff");
+
+        switch (restaurants.get(position).getPrice()){
+            case 1:
+                holder.dollarImg1.setVisibility(View.VISIBLE);
+                break;
+
+            case 2:
+                holder.dollarImg1.setVisibility(View.VISIBLE);
+                holder.dollarImg2.setVisibility(View.VISIBLE);
+                break;
+
+            case 3:
+                holder.dollarImg1.setVisibility(View.VISIBLE);
+                holder.dollarImg2.setVisibility(View.VISIBLE);
+                holder.dollarImg3.setVisibility(View.VISIBLE);
+                break;
+
+
+        }
+
 
     }
 

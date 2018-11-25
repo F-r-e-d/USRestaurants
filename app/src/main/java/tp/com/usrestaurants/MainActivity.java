@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RestaurantService restaurantService;
 
+    private List<Restaurant> listRestaurant = new ArrayList<>();
+
     private Page pageNumber;
 
     @Override
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent mapIntent = new Intent(MainActivity.this, MapActivity.class);
+                mapIntent.putExtra("PAGE_NUMBER", pageNumber.getPage());
+                mapIntent.putExtra("RESTOS_LIST", (Serializable) listRestaurant);
                 startActivity(mapIntent);
             }
         });
@@ -76,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     RestaurantData result = response.body();
                     restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
+                    listRestaurant.clear();
+                    listRestaurant.addAll(result.restaurants);
                     listViewRestaurants.setAdapter(restaurantsAdapter);
                     progressBar.setVisibility(View.GONE);
                 }else {

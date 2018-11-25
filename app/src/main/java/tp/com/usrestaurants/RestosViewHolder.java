@@ -1,21 +1,40 @@
 package tp.com.usrestaurants;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class RestosViewHolder extends RecyclerView.ViewHolder {
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static java.lang.String.valueOf;
+
+public class RestosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
      ImageView imageView;
      TextView restoNameTxt;
-     TextView price;
+     ImageView dollarImg1;
+     ImageView dollarImg2;
+     ImageView dollarImg3;
 
     public RestosViewHolder(View itemView) {
         super(itemView);
 
         imageView = itemView.findViewById(R.id.imgViewRecyclerView);
         restoNameTxt = itemView.findViewById(R.id.restoNameRecyclerViewTxt);
-        price = itemView.findViewById(R.id.priceRecyclerViewTxt);
+        dollarImg1 = itemView.findViewById(R.id.dollarImg1);
+        dollarImg2 = itemView.findViewById(R.id.dollarImg2);
+        dollarImg3 = itemView.findViewById(R.id.dollarImg3);
+
+        ButterKnife.bind(this, itemView);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int data = getAdapterPosition();
+
     }
 }
