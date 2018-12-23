@@ -37,11 +37,8 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosVi
 
     @Override
     public void onBindViewHolder(RestosViewHolder holder, final int position) {
-        //holder.imageView.setImageResource(restaurants.get(position).getImage_url());
         Picasso.get()
                 .load(restaurants.get(position).getImage_url())
-                //.resize(80, 80)
-                //.centerCrop()
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -54,6 +51,8 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosVi
                     }
                 });
         holder.restoNameTxt.setText(restaurants.get(position).getName());
+        holder.addressTxt.setText(restaurants.get(position).getAddress());
+        holder.countryTxt.setText(restaurants.get(position).getCity());
 
         switch (restaurants.get(position).getPrice()){
             case 1:

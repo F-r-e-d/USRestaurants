@@ -15,9 +15,11 @@ import static java.lang.String.valueOf;
 
 public class RestosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
      ImageView imageView;
-     TextView restoNameTxt;
-     ImageView dollarImg1;
-     ImageView dollarImg2;
+    TextView restoNameTxt;
+    TextView addressTxt;
+    TextView countryTxt;
+    ImageView dollarImg1;
+    ImageView dollarImg2;
      ImageView dollarImg3;
 
     public RestosViewHolder(View itemView) {
@@ -25,6 +27,8 @@ public class RestosViewHolder extends RecyclerView.ViewHolder implements View.On
 
         imageView = itemView.findViewById(R.id.imgViewRecyclerView);
         restoNameTxt = itemView.findViewById(R.id.restoNameRecyclerViewTxt);
+        addressTxt = itemView.findViewById(R.id.adress_txt);
+        countryTxt = itemView.findViewById(R.id.country_txt);
         dollarImg1 = itemView.findViewById(R.id.dollarImg1);
         dollarImg2 = itemView.findViewById(R.id.dollarImg2);
         dollarImg3 = itemView.findViewById(R.id.dollarImg3);

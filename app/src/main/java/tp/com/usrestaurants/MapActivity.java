@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -74,7 +75,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
-
         mapView = findViewById(R.id.mapActivityMapView);
         mapView.onCreate(mapViewBundle);
         mapView.getMapAsync(this);
@@ -83,9 +83,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         horizontalAdapter = new RecyclerViewHorizontalAdapter(MapActivity.this, restaurantList2);
         recyclerView.setAdapter(horizontalAdapter);
-
-
-
 
     }
 
@@ -122,8 +119,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
             if (position == 0) {
-//                CameraPosition camPos = new CameraPosition(position, ZOOM_LEVEL, TILT_LEVEL, BEARING_LEVEL);
-//                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camPos));
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ny, 10));
 
             }
@@ -136,8 +131,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                recyclerView.getLayoutManager().scrollToPosition((Integer) marker.getTag());
-                // marker.showInfoWindow();
+                try {
+                    recyclerView.getLayoutManager().scrollToPosition((Integer) marker.getTag());
+                }catch (Exception e){
+                    Log.e("Erreur", e.toString());
+                }
                 return false;
             }
         });
@@ -152,11 +150,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         markerOptions.position(latLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         mGoogleMap.addMarker(markerOptions);
-       // mGoogleMap.setMinZoomPreference(15);
-
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 600, null);
-
-
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);
     }
 
 
@@ -166,8 +160,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onResume() {
         super.onResume();
         mapView.onResume();
-
-
     }
 
     @Override

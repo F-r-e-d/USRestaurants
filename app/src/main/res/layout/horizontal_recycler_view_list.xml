@@ -38,31 +38,47 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:text="TextView"
-                    android:textSize="24sp"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/adress_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
+                <TextView
+                    android:id="@+id/country_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="TextView"
+                    android:textColor="@color/common_google_signin_btn_text_dark_focused" />
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="23dp"
+                    android:layout_width="73dp"
+                    android:layout_height="18dp"
                     android:orientation="horizontal">
 
                     <ImageView
                         android:id="@+id/dollarImg1"
-                        android:layout_width="31dp"
+                        android:layout_width="24dp"
                         android:layout_height="match_parent"
                         android:visibility="invisible"
                         app:srcCompat="@drawable/dollar" />
 
                     <ImageView
                         android:id="@+id/dollarImg2"
-                        android:layout_width="31dp"
+                        android:layout_width="24dp"
                         android:layout_height="wrap_content"
                         android:visibility="invisible"
                         app:srcCompat="@drawable/dollar" />
 
                     <ImageView
                         android:id="@+id/dollarImg3"
-                        android:layout_width="31dp"
+                        android:layout_width="32dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:visibility="invisible"
@@ -70,11 +86,6 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Réserver" />
             </LinearLayout>
         </LinearLayout>
 
