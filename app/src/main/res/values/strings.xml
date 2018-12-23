@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">USRestaurants</string>
+    <string name="lowPrice">$</string>
+    <string name="secondPrice">$$</string>
+    <string name="mediumPrice">$$$</string>
+    <string name="highPrice">$$$$</string>
 
 </resources>

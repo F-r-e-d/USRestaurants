@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -34,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.mapFloatingButton)
     FloatingActionButton mapFloatingButton;
 
+    @BindView(R.id.nextImgBut)
+    ImageButton nextImgBut;
+
+    @BindView(R.id.prevImgBut)
+    ImageButton prevImgBut;
+
+
     private RestaurantsAdapter restaurantsAdapter;
 
     private RestaurantService restaurantService;
@@ -41,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Restaurant> listRestaurant = new ArrayList<>();
 
     private Page pageNumber;
+    private String citySearch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +68,19 @@ public class MainActivity extends AppCompatActivity {
 
         restaurantService = retrofit.create(RestaurantService.class);
 
-        getRestaurant(1);
+//        Récupération du nom du champs de recherche
+        Intent mainIntent = getIntent();
+        citySearch = mainIntent.getStringExtra("CITY_NAME");
+        Boolean checkBoxPrice1 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_1", true);
+
+        if (! TextUtils.isEmpty(citySearch)) {
+            getRestaurantByCity(citySearch);
+            nextImgBut.setVisibility(View.INVISIBLE);
+            prevImgBut.setVisibility(View.INVISIBLE);
+        }else {
+            getRestaurant(1);
+        }
+
         pageNumber = new Page(1);
 
         mapFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
 
@@ -79,25 +104,56 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<RestaurantData>() {
             @Override
             public void onResponse(Call<RestaurantData> call, Response<RestaurantData> response) {
-                if (response.isSuccessful()) {
+//                if (response.isSuccessful()) {
                     RestaurantData result = response.body();
                     restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
                     listRestaurant.clear();
                     listRestaurant.addAll(result.restaurants);
                     listViewRestaurants.setAdapter(restaurantsAdapter);
                     progressBar.setVisibility(View.GONE);
-                }else {
-                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
-                }
+//                }else {
+//                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
+//                }
             }
 
             @Override
             public void onFailure(Call<RestaurantData> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "L'appel a échoué", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+
             }
         });
 
     }
+
+     public void getRestaurantByCity(String city){
+        Call<RestaurantData> call = restaurantService.getRestaurantByCity(city);
+
+        call.enqueue(new Callback<RestaurantData>() {
+            @Override
+            public void onResponse(Call<RestaurantData> call, Response<RestaurantData> response) {
+//                if (response.isSuccessful()) {
+                    RestaurantData result = response.body();
+                    restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
+                    listRestaurant.clear();
+                    listRestaurant.addAll(result.restaurants);
+                    listViewRestaurants.setAdapter(restaurantsAdapter);
+                    progressBar.setVisibility(View.GONE);
+//                }else {
+//                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<RestaurantData> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "L'appel a échoué", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+
+            }
+        });
+
+    }
+
 
     @OnClick(R.id.nextImgBut)
     public void nextPage(){
@@ -122,6 +178,11 @@ public class MainActivity extends AppCompatActivity {
         Intent webViewIntent = new Intent(this, WebViewActivity.class);
         webViewIntent.putExtra("URL_MOBILE", urlMobileResto);
         startActivity(webViewIntent);
+    }
+
+    @OnClick(R.id.searchActivityBut)
+    public void searchBut(){
+        startActivity(new Intent(MainActivity.this, SearchActivity.class));
     }
 
 }
