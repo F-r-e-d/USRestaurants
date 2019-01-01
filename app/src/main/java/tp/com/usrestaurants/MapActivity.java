@@ -1,6 +1,7 @@
 package tp.com.usrestaurants;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -51,11 +52,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ProgressBar progressBar;
 
 
-
-
-
-
-    @Override
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
@@ -83,6 +80,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         horizontalAdapter = new RecyclerViewHorizontalAdapter(MapActivity.this, restaurantList2);
         recyclerView.setAdapter(horizontalAdapter);
+        RestosViewHolder holder = horizontalAdapter.onCreateViewHolder()
 
     }
 
@@ -151,8 +149,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);
-    }
+        try {
+            letsGoTo(resto.getLatitude(), resto.getLongitude());
+        }catch (Exception e){
 
+        }
+    }
 
 
 
@@ -193,5 +195,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    public void letsGoTo(Double lat, Double lon){
+        String uri = "waze://?ll="+lat+", "+ lon +"&navigate=yes";
+        Intent wazeIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+        if (wazeIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(wazeIntent);
+        }else {
+            Uri gmmIntentUri = Uri.parse("google.navigation:q="+lat+", "+lon);
+            Intent googleMapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            googleMapIntent.setPackage("com.google.android.apps.maps");
+            if (googleMapIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(googleMapIntent);
+            }
+        }
     }
 }

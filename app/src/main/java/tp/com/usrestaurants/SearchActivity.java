@@ -44,6 +44,9 @@ public class SearchActivity extends AppCompatActivity {
 
         cityEditTextAutoComplete = findViewById(R.id.cityEditTextAutoComplete);
         checkBox1 = findViewById(R.id.checkBox1);
+        checkBox2 = findViewById(R.id.checkBox2);
+        checkBox3 = findViewById(R.id.checkBox3);
+        checkBox4 = findViewById(R.id.checkBox4);
 
         getRestosCity();
 
@@ -55,19 +58,22 @@ public class SearchActivity extends AppCompatActivity {
     public void searchImgButAction(View view){
         Intent intent = new Intent(SearchActivity.this, MainActivity.class);
         String city = cityEditTextAutoComplete.getText().toString();
-        Boolean checkBoxRes = checkBox1.isChecked();
+        Boolean checkBoxRes1 =  checkBox1.isChecked();
+        Boolean checkBoxRes2 =  checkBox2.isChecked();
+        Boolean checkBoxRes3 =  checkBox3.isChecked();
+        Boolean checkBoxRes4 =  checkBox4.isChecked();
+
         intent.putExtra("CITY_NAME", city);
-        intent.putExtra("CHECKBOX_PRICE_1", checkBoxRes);
+        intent.putExtra("CHECKBOX_PRICE_1", checkBoxRes1);
+        intent.putExtra("CHECKBOX_PRICE_2", checkBoxRes2);
+        intent.putExtra("CHECKBOX_PRICE_3", checkBoxRes3);
+        intent.putExtra("CHECKBOX_PRICE_4", checkBoxRes4);
         startActivity(intent);
     }
 
 
+    // Auto-completion
     public void getRestosCity(){
-//        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-//        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-//        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-//        builder.addInterceptor(loggingInterceptor);
-
         Retrofit.Builder builder1 = new Retrofit.Builder()
                 .baseUrl("http://opentable.herokuapp.com/api/")
                 .addConverterFactory(GsonConverterFactory.create());
