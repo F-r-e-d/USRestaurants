@@ -2,6 +2,7 @@ package tp.com.usrestaurants;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,6 +51,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private RestaurantService restaurantService;
     private int pageNumber;
     private ProgressBar progressBar;
+    private Restaurant resto;
+
+
 
 
    @Override
@@ -80,7 +84,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         horizontalAdapter = new RecyclerViewHorizontalAdapter(MapActivity.this, restaurantList2);
         recyclerView.setAdapter(horizontalAdapter);
-        RestosViewHolder holder = horizontalAdapter.onCreateViewHolder()
+
+
+/*       directionFloatingButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               try {
+                   int pos = recyclerView.getLayoutManager().getPosition(view);
+                   resto = restaurantList2.get(pos);
+                   letsGoTo(resto.getLatitude(), resto.getLongitude());
+               }catch (Exception e){
+
+               }
+           }
+       });*/
+
 
     }
 
@@ -142,18 +160,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public void zoomToMarker(View v){
        int pos = recyclerView.getLayoutManager().getPosition(v);
-       Restaurant resto = restaurantList2.get(pos);
+        resto = restaurantList2.get(pos);
         LatLng latLng = new LatLng(resto.getLatitude(), resto.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         mGoogleMap.addMarker(markerOptions);
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15), 1500, null);
-        try {
-            letsGoTo(resto.getLatitude(), resto.getLongitude());
-        }catch (Exception e){
 
-        }
+
+
     }
 
 
@@ -197,18 +213,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void letsGoTo(Double lat, Double lon){
-        String uri = "waze://?ll="+lat+", "+ lon +"&navigate=yes";
-        Intent wazeIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-        if (wazeIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(wazeIntent);
-        }else {
-            Uri gmmIntentUri = Uri.parse("google.navigation:q="+lat+", "+lon);
-            Intent googleMapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            googleMapIntent.setPackage("com.google.android.apps.maps");
-            if (googleMapIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(googleMapIntent);
-            }
-        }
-    }
+
+
 }
