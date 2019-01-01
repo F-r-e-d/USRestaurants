@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
     private Page pageNumber;
     private String citySearch = null;
+    private Boolean checkBoxPrice1;
+    private Boolean checkBoxPrice2;
+    private Boolean checkBoxPrice3;
+    private Boolean checkBoxPrice4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
 //        Récupération du nom du champs de recherche
         Intent mainIntent = getIntent();
         citySearch = mainIntent.getStringExtra("CITY_NAME");
-        Boolean checkBoxPrice1 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_1", true);
+        checkBoxPrice1 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_1", true);
+        checkBoxPrice2 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_2", true);
+        checkBoxPrice3 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_3", true);
+        checkBoxPrice4 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_4", true);
 
         if (! TextUtils.isEmpty(citySearch)) {
             getRestaurantByCity(citySearch);
@@ -127,21 +134,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
      public void getRestaurantByCity(String city){
-        Call<RestaurantData> call = restaurantService.getRestaurantByCity(city);
+        Call<RestaurantData> call = restaurantService.getRestaurantByCity(city, 1);
 
         call.enqueue(new Callback<RestaurantData>() {
             @Override
             public void onResponse(Call<RestaurantData> call, Response<RestaurantData> response) {
-//                if (response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     RestaurantData result = response.body();
                     restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
                     listRestaurant.clear();
                     listRestaurant.addAll(result.restaurants);
                     listViewRestaurants.setAdapter(restaurantsAdapter);
                     progressBar.setVisibility(View.GONE);
-//                }else {
-//                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
-//                }
+                }else {
+                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override

@@ -13,14 +13,14 @@ import butterknife.OnClick;
 
 import static java.lang.String.valueOf;
 
-public class RestosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-     ImageView imageView;
-    TextView restoNameTxt;
-    TextView addressTxt;
-    TextView countryTxt;
-    ImageView dollarImg1;
-    ImageView dollarImg2;
-     ImageView dollarImg3;
+public class RestosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+        ImageView imageView;
+        TextView restoNameTxt;
+        TextView addressTxt;
+        TextView countryTxt;
+        ImageView dollarImg1;
+        ImageView dollarImg2;
+        ImageView dollarImg3;
 
     public RestosViewHolder(View itemView) {
         super(itemView);
@@ -34,11 +34,19 @@ public class RestosViewHolder extends RecyclerView.ViewHolder implements View.On
         dollarImg3 = itemView.findViewById(R.id.dollarImg3);
 
         ButterKnife.bind(this, itemView);
+
+        itemView.setOnLongClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         int data = getAdapterPosition();
+    }
 
+    @Override
+    public boolean onLongClick(View view) {
+        int position = getAdapterPosition();
+
+        return true;
     }
 }
