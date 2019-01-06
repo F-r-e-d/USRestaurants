@@ -75,7 +75,6 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosVi
                 holder.dollarImg3.setVisibility(View.VISIBLE);
                 break;
 
-
         }
 
         holder.directionFloatingBut.setOnClickListener(new View.OnClickListener() {

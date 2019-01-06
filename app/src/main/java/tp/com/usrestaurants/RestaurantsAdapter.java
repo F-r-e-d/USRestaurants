@@ -43,6 +43,10 @@ public class RestaurantsAdapter extends ArrayAdapter {
         TextView city = convertView.findViewById(R.id.cityTxt);
         TextView postalCode = convertView.findViewById(R.id.postalCodeTxt);
         TextView priceTxt = convertView.findViewById(R.id.priceTxt);
+        ImageView dollar1ImgView = convertView.findViewById(R.id.dollar1ImgView);
+        ImageView dollar2ImgView = convertView.findViewById(R.id.dollar2ImgView);
+        ImageView dollar3ImgView = convertView.findViewById(R.id.dollar3ImgView);
+        ImageView dollar4ImgView = convertView.findViewById(R.id.dollar4ImgView);
         final ProgressBar imgLoadProgressBar = convertView.findViewById(R.id.imgLoadProgressBar);
 
         String url = ((Restaurant) getItem(position)).image_url;
@@ -66,8 +70,23 @@ public class RestaurantsAdapter extends ArrayAdapter {
         restoName.setText(restaurant.name);
         postalCode.setText(restaurant.postal_code);
         city.setText(restaurant.city);
-        priceTxt.setText("Price : " + restaurant.price + "/4");
+        switch (restaurant.price){
 
+            case 2:
+                dollar2ImgView.setVisibility(View.VISIBLE);
+                break;
+
+            case 3:
+                dollar2ImgView.setVisibility(View.VISIBLE);
+                dollar3ImgView.setVisibility(View.VISIBLE);
+                break;
+
+            case 4:
+                dollar2ImgView.setVisibility(View.VISIBLE);
+                dollar3ImgView.setVisibility(View.VISIBLE);
+                dollar4ImgView.setVisibility(View.VISIBLE);
+                break;
+        }
 
         return convertView;
     }
