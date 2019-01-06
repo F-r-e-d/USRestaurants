@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -110,20 +111,21 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<RestaurantData>() {
             @Override
             public void onResponse(Call<RestaurantData> call, Response<RestaurantData> response) {
-//                if (response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     RestaurantData result = response.body();
                     restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
                     listRestaurant.clear();
                     listRestaurant.addAll(result.restaurants);
                     listViewRestaurants.setAdapter(restaurantsAdapter);
                     progressBar.setVisibility(View.GONE);
-//                }else {
-//                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
-//                }
+                }else {
+                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onFailure(Call<RestaurantData> call, Throwable t) {
+                Log.d("Errrrror", t.getMessage());
                 Toast.makeText(MainActivity.this, "L'appel a échoué", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
 
