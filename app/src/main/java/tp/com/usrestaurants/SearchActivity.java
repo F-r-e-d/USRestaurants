@@ -72,7 +72,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    // Auto-completion
+    // Auto-completion lorsque l'on tape les 2 premières lettres d'une ville
     public void getRestosCity(){
         Retrofit.Builder builder1 = new Retrofit.Builder()
                 .baseUrl("http://opentable.herokuapp.com/api/")

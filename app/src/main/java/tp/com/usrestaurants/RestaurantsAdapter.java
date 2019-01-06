@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+//ListView affiché dans le main activity
 public class RestaurantsAdapter extends ArrayAdapter {
 
     public RestaurantsAdapter(Context context, List<Restaurant> restaurants) {
@@ -29,7 +30,7 @@ public class RestaurantsAdapter extends ArrayAdapter {
 
 
         if (restaurant == null) {
-            throw new IllegalStateException("A null restaurant finf in RestaurantAdapter");
+            throw new IllegalStateException("A null restaurant find in RestaurantAdapter");
         }
 
         if (convertView == null) {
@@ -51,10 +52,9 @@ public class RestaurantsAdapter extends ArrayAdapter {
 
         String url = ((Restaurant) getItem(position)).image_url;
 
+        //Affichage des photos avec Picasso
         Picasso.get()
                 .load(url)
-                //.resize(80, 80)
-                //.centerCrop()
                 .into(imgResto, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -70,6 +70,8 @@ public class RestaurantsAdapter extends ArrayAdapter {
         restoName.setText(restaurant.name);
         postalCode.setText(restaurant.postal_code);
         city.setText(restaurant.city);
+
+        //Affichage des images dollar selon le prix
         switch (restaurant.price){
 
             case 2:

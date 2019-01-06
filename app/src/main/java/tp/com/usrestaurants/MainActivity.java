@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         checkBoxPrice3 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_3", true);
         checkBoxPrice4 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_4", true);
 
+        //Si citySearch n'est pas null, On affiche les restos correspondants, sinon on affiche les retos de la première page
         if (! TextUtils.isEmpty(citySearch)) {
             getRestaurantByCity(citySearch);
             nextImgBut.setVisibility(View.INVISIBLE);
@@ -92,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         pageNumber = new Page(1);
 
+        //Bouton pour ouvrir l'activiyé Map. On envoie le numéro de page ainsi que la liste des restos
         mapFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //Récupération des restos par page
     public void getRestaurant(int page){
         Call<RestaurantData> call = restaurantService.getRestaurantPerPage("US",page);
 
@@ -125,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RestaurantData> call, Throwable t) {
-                Log.d("Errrrror", t.getMessage());
                 Toast.makeText(MainActivity.this, "L'appel a échoué", Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.GONE);
 
@@ -134,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Récupération des restos par ville
      public void getRestaurantByCity(String city){
         Call<RestaurantData> call = restaurantService.getRestaurantByCity(city, 1);
 
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Ouverture de l'url du resto correspondant dans une webView
     @OnItemClick(R.id.listViewRestaurants)
     public void onRestaurantClick(int position){
         Restaurant restoSelected = (Restaurant) restaurantsAdapter.getItem(position);

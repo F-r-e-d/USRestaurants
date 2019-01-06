@@ -65,11 +65,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Intent mapIntent = getIntent();
         pageNumber = mapIntent.getIntExtra("PAGE_NUMBER", 1);
+
+        //On récupère la liste des restos en cours dans le main
         restaurantList2 = (List<Restaurant>) mapIntent.getSerializableExtra("RESTOS_LIST");
 
         progressBar =findViewById(R.id.progressBarRecyclerView);
-
-        final Restaurant restaurant = (Restaurant) getIntent().getSerializableExtra(RESTOS_EXTRA_KEY);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -84,21 +84,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         horizontalAdapter = new RecyclerViewHorizontalAdapter(MapActivity.this, restaurantList2);
         recyclerView.setAdapter(horizontalAdapter);
-
-
-/*       directionFloatingButton.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               try {
-                   int pos = recyclerView.getLayoutManager().getPosition(view);
-                   resto = restaurantList2.get(pos);
-                   letsGoTo(resto.getLatitude(), resto.getLongitude());
-               }catch (Exception e){
-
-               }
-           }
-       });*/
-
 
     }
 

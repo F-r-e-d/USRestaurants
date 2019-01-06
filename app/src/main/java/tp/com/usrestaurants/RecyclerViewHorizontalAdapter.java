@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+//RecyclerView horizontal affiché dans la map activity
 public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosViewHolder> {
 
     List<Restaurant> restaurants;
@@ -59,6 +60,7 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosVi
         holder.addressTxt.setText(restaurants.get(position).getAddress());
         holder.countryTxt.setText(restaurants.get(position).getCity());
 
+        //Affiche des images dollars en fonction du prix
         switch (restaurants.get(position).getPrice()){
             case 1:
                 holder.dollarImg1.setVisibility(View.VISIBLE);
@@ -91,6 +93,7 @@ public class RecyclerViewHorizontalAdapter extends RecyclerView.Adapter<RestosVi
 
     }
 
+    //Si waze est présent , on ouvre l'itinéraire avec waze sinon on ouvre google maps
     public static void letsGoTo(Double lat, Double lon){
         String uri = "waze://?ll="+lat+", "+ lon +"&navigate=yes";
         Intent wazeIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
