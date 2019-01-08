@@ -5,11 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -54,10 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Page pageNumber;
     private String citySearch = null;
-    private Boolean checkBoxPrice1;
-    private Boolean checkBoxPrice2;
-    private Boolean checkBoxPrice3;
-    private Boolean checkBoxPrice4;
+    private String nameRestoSearch = null;
+    private LinearLayout layoutButs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +73,25 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         restaurantService = retrofit.create(RestaurantService.class);
-
+        layoutButs = findViewById(R.id.layoutButs);
 //        Récupération du nom du champs de recherche
         Intent mainIntent = getIntent();
         citySearch = mainIntent.getStringExtra("CITY_NAME");
-        checkBoxPrice1 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_1", true);
-        checkBoxPrice2 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_2", true);
-        checkBoxPrice3 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_3", true);
-        checkBoxPrice4 = mainIntent.getBooleanExtra("CHECKBOX_PRICE_4", true);
+        nameRestoSearch = mainIntent.getStringExtra("RESTO_NAME");
 
         //Si citySearch n'est pas null, On affiche les restos correspondants, sinon on affiche les retos de la première page
         if (! TextUtils.isEmpty(citySearch)) {
             getRestaurantByCity(citySearch);
-            nextImgBut.setVisibility(View.INVISIBLE);
-            prevImgBut.setVisibility(View.INVISIBLE);
-        }else {
+            layoutButs.setVisibility(View.GONE);
+
+            //Si nameRestoSearch n'est pas null, On affiche les restos correspondants, sinon on affiche les retos de la première page
+        }else if (! TextUtils.isEmpty(nameRestoSearch)) {
+            getRestaurantByName(nameRestoSearch);
+            layoutButs.setVisibility(View.GONE);
+        }else{
             getRestaurant(1);
         }
+
 
         pageNumber = new Page(1);
 
@@ -164,6 +166,37 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+        //Récupération des restos par ville
+     public void getRestaurantByName(String name){
+        Call<RestaurantData> call = restaurantService.getRestaurantsByName(name);
+
+        call.enqueue(new Callback<RestaurantData>() {
+            @Override
+            public void onResponse(Call<RestaurantData> call, Response<RestaurantData> response) {
+                if (response.isSuccessful()) {
+                    RestaurantData result = response.body();
+                    restaurantsAdapter = new RestaurantsAdapter(MainActivity.this, result.restaurants);
+                    listRestaurant.clear();
+                    listRestaurant.addAll(result.restaurants);
+                    listViewRestaurants.setAdapter(restaurantsAdapter);
+                    progressBar.setVisibility(View.GONE);
+                }else {
+                    Toast.makeText(MainActivity.this, "Le serveur a rencontré une erreur " +response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RestaurantData> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "L'appel a échoué", Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+
+            }
+        });
+
+    }
+
+
 
 
     @OnClick(R.id.nextImgBut)

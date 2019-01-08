@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">US Restaurants (English version)</string>
+    <string name="lowPrice">$</string>
+    <string name="secondPrice">$$</string>
+    <string name="mediumPrice">$$$</string>
+    <string name="highPrice">$$$$</string>
+    <string name="cityRestosNameSearch">Restaurant name, city…</string>
+    <string name="city">City</string>
+    <string name="restoName">Restaurant name</string>
+</resources>

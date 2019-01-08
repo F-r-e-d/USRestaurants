@@ -8,23 +8,16 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/searchActivityBut"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="7"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/searchActivityBut"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="0dp"
-            android:padding="15dp"
-            android:text="Nom du restaurant, ville ...."
-            android:textAlignment="viewStart"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        android:padding="15dp"
+        android:text="@string/cityRestosNameSearch"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -81,6 +74,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/layoutButs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="7"

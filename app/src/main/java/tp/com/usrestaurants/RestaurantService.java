@@ -13,6 +13,9 @@ public interface RestaurantService {
     @GET("restaurants")
     Call<RestaurantData> getRestaurantByCity(@Query("city") String city, @Query("price") int price);
 
+     @GET("restaurants")
+    Call<RestaurantData> getRestaurantsByName(@Query(value="name",encoded = true) String name);
+
     @GET("cities")
     Call<CityData> getCity();
 

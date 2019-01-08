@@ -1,8 +1,10 @@
 <resources>
-    <string name="app_name">USRestaurants</string>
-    <string name="lowPrice">$</string>
-    <string name="secondPrice">$$</string>
-    <string name="mediumPrice">$$$</string>
-    <string name="highPrice">$$$$</string>
-
+    <string name="app_name">USRestaurants (Version Française)</string>
+    <string name="lowPrice">€</string>
+    <string name="secondPrice">€€</string>
+    <string name="mediumPrice">€€€</string>
+    <string name="highPrice">€€€€</string>
+    <string name="cityRestosNameSearch">Nom du restaurant, ville…</string>
+    <string name="city">Ville</string>
+    <string name="restoName">Nom du restaurant</string>
 </resources>
